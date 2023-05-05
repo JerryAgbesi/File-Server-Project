@@ -13,4 +13,7 @@ class File(models.Model):
     number_of_emails = models.IntegerField(default=0)
     number_of_downloads = models.IntegerField(default=0)
 
+    def __str__(self) -> str:
+        return self.title 
+
     

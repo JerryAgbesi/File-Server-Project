@@ -1,26 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import File
 
-files = [
-    {
-        'title': "Wedding invite",
-        'description': 'wedding invite for Eric and Vera',
-        'date_uploaded': 'May 7, 2022',
-        'number_of_emails': '0',
-        'number_of_downloads': '0'
-
-    },
-    {
-        'title': "Funeral Brochure",
-        'description': 'Funeral brochure of ..',
-        'date_uploaded': 'May 19, 2022',
-        'number_of_emails': '0',
-        'number_of_downloads': '0'
- 
-    }
-]
-
-class HomeView(TemplateView):
+#Ensure users are authenticated before accessing pages.
+#This explains the reason for the mixin 
+class HomeView(LoginRequiredMixin,TemplateView):
     template_name = "fileapp/home.html"
-    extra_context = {"files":files}
+    extra_context = {"files":File.objects.all()}

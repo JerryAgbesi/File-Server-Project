@@ -11,14 +11,22 @@
             </div>
             <h2><a class="article-title" href="#">{{ file.title }}</a></h2>
             <p class="article-content">{{ file.description }}</p>
-            <div class="ml-auto">
-                <button class="btn btn-light"><i class="fa fa-file"></i> | Preview</button>
-                <button class="btn btn-dark"><i class="fa fa-download"></i> | Download</button>  
-            </div>
+                <div class="float-right">
+                    <button class="btn btn-light"><i class="fa fa-paper-plane"></i> | send</button>
+                    <button class="btn btn-light"><i class="fa fa-file"></i> | Preview</button>
+                    <a href="{% url 'download' file.id %}">
+                      <button class="btn btn-dark">
+                        <i class="fa fa-download"></i>|Download
+                      </button> 
+                    </a> 
+                </div>
+                </div>
+              </div>
             </div>
            
         </article>
     {% endfor %}
 
 {%endblock content%}
- 
+<!-- "location.href='{% url "download" file.id %}'"
+"window.location.href='{% url 'increment_download' file.id %}';" -->

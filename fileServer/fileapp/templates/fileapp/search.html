@@ -1,0 +1,18 @@
+{% extends "fileapp/base.html" %}
+
+{% block content %}
+    <!-- {% if files %} -->
+        <h1> Results found</h1>
+        {% for file in files %}   
+           
+            <p>{{file.title}}</p>
+          
+         {% endfor %}
+
+     {% else %} 
+
+        <h1>No results found</h1>
+
+    {% endif %}
+
+{% endblock %} 

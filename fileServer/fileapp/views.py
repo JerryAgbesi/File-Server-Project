@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
 from django.core.mail import EmailMessage
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse,HttpRequest
+from django.contrib import messages
 from django.conf import settings
 import requests
 from .models import File
@@ -18,19 +19,6 @@ import magic
 class HomeView(LoginRequiredMixin,TemplateView):
     template_name = "fileapp/home.html"
     extra_context = {"files":File.objects.all()}
-    
-
-def generate_presigned_url(bucket_name,object_name,expiration=3600):
-    s3_client = boto3.client('s3')
-    try:
-        response = s3_client.generate_presigned_url(
-            'get_object',
-            Params={'Bucket':bucket_name,"Key":object_name},ExpiresIn=expiration
-        )
-    except ClientError as e:
-        return None
-
-    return response    
 
 def file_download(request,file_id):
     file = get_object_or_404(File,pk=file_id)
@@ -46,10 +34,6 @@ def file_search(request):
         query = request.GET.get('search')
         files = File.objects.filter(title__icontains="" if query is None else query )
         return render(request,'fileapp/search.html',{'files':files})
-
-# class EmailFormRender(TemplateView):
-#     template_name = "fileapp/send_mail.html"
-#     extra_context = {"form":EmailForm}   
 
 def email_form(request,file_id):
     form = EmailForm
@@ -106,37 +90,19 @@ def send_mail(request,file_id):
                     from_email= 'jerryeagbesi@gmail.com',
                     to = [form.cleaned_data['to']])
                 
-                email.attach(file_obj.title,file_content,'application/octet-stream')
+                # email.attach(file_obj.title,file_content,'application/octet-stream')
 
                 
-                email.send()
+                # email.send()
+
+                messages.success(request,'File has been sent succesfully')
                 
-                return HttpResponse('success')
+                return redirect('home')
+                
         else:
             form = EmailForm()
 
         return render(request,'send_mail.html',{'form':form})    
-
-    
-    # file = get_object_or_404(File,pk=file_id)
-    # if request.method == "POST":
-    #     form = EmailForm(request.POST,request.FILES)
-    #     print(form.cleaned_data['subject'])
-
-    #     if form.is_valid():
-    #         email = EmailMessage(
-    #             form.cleaned_data['subject'],
-    #             form.cleaned_data['body'],
-    #             settings.EMAIL_HOST_USER,
-    #             form.cleaned_data['to'])
-        # print(form.cleaned_data['subject'])
-            # email.attach(
-            #     file.title,
-            #     file.read(),
-            #     file.content_type)
-            # email.send()
-
-
 
             
 

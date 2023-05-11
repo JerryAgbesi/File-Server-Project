@@ -95,6 +95,10 @@ def send_mail(request,file_id):
                 
                 # email.send()
 
+                #Increase the count emails sent for the file
+                file_obj.number_of_emails += 1
+                file_obj.save()
+
                 messages.success(request,'File has been sent succesfully')
                 
                 return redirect('home')

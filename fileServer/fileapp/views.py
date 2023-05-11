@@ -47,13 +47,14 @@ def file_search(request):
         files = File.objects.filter(title__icontains="" if query is None else query )
         return render(request,'fileapp/search.html',{'files':files})
 
-class EmailForm(TemplateView):
-    template_name = "fileapp/send_mail.html"
-    extra_context = {"form":EmailForm}   
+# class EmailFormRender(TemplateView):
+#     template_name = "fileapp/send_mail.html"
+#     extra_context = {"form":EmailForm}   
 
 def email_form(request,file_id):
     form = EmailForm
     file = get_object_or_404(File,pk=file_id)
+    print(file.title)
     return render(request,"fileapp/send_mail.html",{'form':form,"file":file})    
 
 def preview_file(request,file_id):
@@ -75,23 +76,66 @@ def preview_file(request,file_id):
 
 
 def send_mail(request,file_id):
-    file = get_object_or_404(File,pk=file_id)
-    if request.method == "POST":
-        form = EmailForm(request.POST,request.FILES)
-        print(form.cleaned_data['subject'])
+        if request.method == 'POST':
+            form = EmailForm(request.POST)
+            file_obj = File.objects.get(id=file_id)
+            file_url = file_obj.file.url
 
-        if form.is_valid:
-            email = EmailMessage(
-                form.cleaned_data['subject'],
-                form.cleaned_data['body'],
-                settings.EMAIL_HOST_USER,
-                form.cleaned_data['to'])
+
+            if form.is_valid():
+                # mail = form.save(commit=False)
+                
+
+                #Retrieve the file from the S3 bucket
+                s3 = boto3.resource('s3')
+                bucket_name = 'django-file-server'
+
+                bucket_url = f'https://{bucket_name}.s3.amazonaws.com/'
+                file_path = file_url.replace(bucket_url, '')
+
+                # Remove query parameters if present
+                file_path = file_path.split('?')[0]
+
+                file_key = file_path
+                file_object = s3.Object(bucket_name,file_key)
+                file_content = file_object.get()['Body'].read()
+
+                email = EmailMessage(
+                    subject = form.cleaned_data['subject'],
+                    body = form.cleaned_data['body'],
+                    from_email= 'jerryeagbesi@gmail.com',
+                    to = [form.cleaned_data['to']])
+                
+                email.attach(file_obj.title,file_content,'application/octet-stream')
+
+                
+                email.send()
+                
+                return HttpResponse('success')
+        else:
+            form = EmailForm()
+
+        return render(request,'send_mail.html',{'form':form})    
+
+    
+    # file = get_object_or_404(File,pk=file_id)
+    # if request.method == "POST":
+    #     form = EmailForm(request.POST,request.FILES)
+    #     print(form.cleaned_data['subject'])
+
+    #     if form.is_valid():
+    #         email = EmailMessage(
+    #             form.cleaned_data['subject'],
+    #             form.cleaned_data['body'],
+    #             settings.EMAIL_HOST_USER,
+    #             form.cleaned_data['to'])
         # print(form.cleaned_data['subject'])
             # email.attach(
             #     file.title,
             #     file.read(),
             #     file.content_type)
             # email.send()
+
 
 
             

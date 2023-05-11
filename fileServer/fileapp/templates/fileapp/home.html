@@ -9,12 +9,16 @@
             <div class="article-metadata">
                 <small class="text-muted">{{ file.date_uploaded }}</small>
             </div>
-            <h2><a class="article-title" href="#">{{ file.title }}</a></h2>
+            <h2><a class="article-title" href="#" class="no-underline">{{ file.title }}</a></h2>
             <p class="article-content">{{ file.description }}</p>
                 <div class="float-right">
-                    <button class="btn btn-light"><i class="fa fa-paper-plane"></i> | send</button>
-                    <button class="btn btn-light"><i class="fa fa-file"></i> | Preview</button>
-                    <a href="{% url 'download' file.id %}">
+                    <a href="{% url 'email_form' file_id=file.id %}" class="no-underline">
+                      <button class="btn btn-light"><i class="fa fa-paper-plane"></i> | send</button>
+                    </a>  
+                    <a href="{% url 'preview_file' file.id %}" class="no-underline">
+                      <button class="btn btn-light"><i class="fa fa-file"></i> | Preview</button>
+                    </a> 
+                    <a class="no-underline" href="{% url 'download' file.id %}">
                       <button class="btn btn-dark">
                         <i class="fa fa-download"></i>|Download
                       </button> 
@@ -28,5 +32,3 @@
     {% endfor %}
 
 {%endblock content%}
-<!-- "location.href='{% url "download" file.id %}'"
-"window.location.href='{% url 'increment_download' file.id %}';" -->

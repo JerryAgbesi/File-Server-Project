@@ -1,0 +1,28 @@
+{% extends "fileapp/base.html"%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if file %}
+        <div class="content-section">
+            <h3>attachment:{{file.title}}</h3>
+            <form method="POST" action="{% url 'send_mail' file.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Send File Via Email</legend>
+                    {{form|crispy}}
+                
+                </fieldset>
+                <div class="form-group mt-3" > 
+                        <button class="btn btn-outline-info" type="submit">
+                            Send
+                        </button>
+                
+                </div>
+                
+
+            </form>
+        </div>
+    {% endif %}
+{%endblock content%}

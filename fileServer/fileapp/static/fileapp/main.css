@@ -88,3 +88,11 @@ body {
     bottom:0;
     right:0;
    }
+
+   .custom-textarea {
+    height: 200px;
+}
+
+.no-underline {
+  text-decoration: none;
+}

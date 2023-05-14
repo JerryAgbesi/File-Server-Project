@@ -9,7 +9,7 @@
             <div class="article-metadata">
                 <small class="text-muted">{{ file.date_uploaded }}</small>
             </div>
-            <h2><a class="article-title" href="#" class="no-underline">{{ file.title }}</a></h2>
+            <h2 class="article-title" >{{ file.title }}</a></h2>
             <p class="article-content">{{ file.description }}</p>
                 <div class="float-right">
                     <a href="{% url 'email_form' file_id=file.id %}" class="no-underline">

@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'fileServer.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(env= os.environ.get('DB_STRING') , default='postgresql://postgres:postgres@localhost:5432/mysite' ,conn_max_age=600 )
+    'default': dj_database_url.config(env= os.environ.get('DATABASE_URL') , default='postgresql://postgres:postgres@localhost:5432/mysite' ,conn_max_age=600 )
     
 }
 

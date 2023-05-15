@@ -5,7 +5,6 @@
 {% block content %}
     {% if file %}
         <div class="content-section">
-            <h3>attachment:{{file.title}}</h3>
             <form method="POST" action="{% url 'send_mail' file.id %}" enctype="multipart/form-data">
                 {% csrf_token %}
 

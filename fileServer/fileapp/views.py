@@ -85,7 +85,7 @@ def send_mail(request,file_id):
                 email = EmailMessage(
                     subject = form.cleaned_data['subject'],
                     body = form.cleaned_data['body'],
-                    from_email= 'lizzyfileserver@gmail.com',
+                    from_email= 'jerryeagbesi@gmail.com',
                     to = [form.cleaned_data['to']])
                 
                 #attach file content to email being sent

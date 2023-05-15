@@ -89,10 +89,10 @@ def send_mail(request,file_id):
                     to = [form.cleaned_data['to']])
                 
                 #attach file content to email being sent
-                # email.attach(file_obj.title,file_content,'application/octet-stream')
+                email.attach(file_obj.title,file_content,'application/octet-stream')
 
                 
-                # email.send()
+                email.send()
 
                 #Increase the count emails sent for the file
                 file_obj.number_of_emails += 1

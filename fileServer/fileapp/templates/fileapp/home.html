@@ -3,32 +3,38 @@
 
 {% block content %}
 
-    {% for file in files%}
-        <article class="media content-section">
-            <div class="media-body">
-            <div class="article-metadata">
-                <small class="text-muted">{{ file.date_uploaded }}</small>
-            </div>
-            <h2 class="article-title" >{{ file.title }}</h2>
-            <p class="article-content">{{ file.description }}</p>
-                <div class="float-right">
-                    <a href="{% url 'email_form' file_id=file.id %}" class="no-underline">
-                      <button class="btn btn-light"><i class="fa fa-paper-plane"></i> | send</button>
-                    </a>  
-                    <a href="{% url 'preview_file' file.id %}" class="no-underline">
-                      <button class="btn btn-light"><i class="fa fa-file"></i> | Preview</button>
-                    </a> 
-                    <a class="no-underline" href="{% url 'download' file.id %}">
-                      <button class="btn btn-dark">
-                        <i class="fa fa-download"></i>|Download
-                      </button> 
-                    </a> 
-                </div>
+  {% if files %}
+      {% for file in files%}
+          <article class="media content-section">
+              <div class="media-body">
+              <div class="article-metadata">
+                  <small class="text-muted">{{ file.date_uploaded }}</small>
+              </div>
+              <h2 class="article-title" >{{ file.title }}</h2>
+              <p class="article-content">{{ file.description }}</p>
+                  <div class="float-right">
+                      <a href="{% url 'email_form' file_id=file.id %}" class="no-underline">
+                        <button class="btn btn-light"><i class="fa fa-paper-plane"></i> | send</button>
+                      </a>  
+                      <a href="{% url 'preview_file' file.id %}" class="no-underline">
+                        <button class="btn btn-light"><i class="fa fa-file"></i> | Preview</button>
+                      </a> 
+                      <a class="no-underline" href="{% url 'download' file.id %}">
+                        <button class="btn btn-dark">
+                          <i class="fa fa-download"></i>|Download
+                        </button> 
+                      </a> 
+                  </div>
+                  </div>
                 </div>
               </div>
-            </div>
-           
-        </article>
-    {% endfor %}
+            
+          </article>
+      {% endfor %}
+  {% else %}
+      
+    <h1 class="text-center"> No Files available </h1>
+
+  {% endif %}    
 
 {%endblock content%}

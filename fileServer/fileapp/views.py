@@ -3,15 +3,12 @@ from django.views.generic import TemplateView
 from django.core.mail import EmailMessage
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse,HttpRequest
+from django.http import HttpResponse
 from django.contrib import messages
-from django.conf import settings
 import requests
 from .models import File
 from .forms import EmailForm
 import boto3
-from botocore.exceptions import ClientError
-import magic
 
 
 #Ensure users are authenticated before accessing pages.
@@ -90,10 +87,11 @@ def send_mail(request,file_id):
                     from_email= 'jerryeagbesi@gmail.com',
                     to = [form.cleaned_data['to']])
                 
-                # email.attach(file_obj.title,file_content,'application/octet-stream')
+                #attach file content to email being sent
+                email.attach(file_obj.title,file_content,'application/octet-stream')
 
                 
-                # email.send()
+                email.send()
 
                 #Increase the count emails sent for the file
                 file_obj.number_of_emails += 1

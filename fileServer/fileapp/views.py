@@ -29,7 +29,7 @@ def file_download(request,file_id):
 def file_search(request):
     if request.method == 'GET':
         query = request.GET.get('search')
-        files = File.objects.filter(title__icontains="" if query is None else query )
+        files = File.objects.filter(title__icontains= ""  if query is None else query) | File.objects.filter(description__icontains= ""  if query is None else query)
         return render(request,'fileapp/search.html',{'files':files})
 
 def email_form(request,file_id):
@@ -88,10 +88,10 @@ def send_mail(request,file_id):
                     to = [form.cleaned_data['to']])
                 
                 #attach file content to email being sent
-                # email.attach(file_obj.title,file_content,'application/octet-stream')
+                email.attach(file_obj.title,file_content,'application/octet-stream')
 
                 
-                # email.send()
+                email.send()
 
                 #Increase the count emails sent for the file
                 file_obj.number_of_emails += 1

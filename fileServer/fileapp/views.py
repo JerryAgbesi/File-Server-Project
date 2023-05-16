@@ -10,7 +10,6 @@ from .models import File
 from .forms import EmailForm
 import boto3
 
-
 #Ensure users are authenticated before accessing pages.
 #This explains the reason for the mixin 
 class HomeView(LoginRequiredMixin,TemplateView):
@@ -104,6 +103,7 @@ def send_mail(request,file_id):
                 
         else:
             form = EmailForm()
+            
 
         return render(request,'send_mail.html',{'form':form})    
 

@@ -35,7 +35,6 @@ def file_search(request):
 def email_form(request,file_id):
     form = EmailForm
     file = get_object_or_404(File,pk=file_id)
-    print(file.title)
     return render(request,"fileapp/send_mail.html",{'form':form,"file":file})    
 
 def preview_file(request,file_id):
@@ -87,8 +86,12 @@ def send_mail(request,file_id):
                     from_email= 'jerryeagbesi@gmail.com',
                     to = [form.cleaned_data['to']])
                 
+                response = requests.get(file_url)
+
+                content_type = response.headers['Content-Type']
+                
                 #attach file content to email being sent
-                email.attach(file_obj.title,file_content,'application/octet-stream')
+                email.attach(file_obj.title,file_content,content_type)
 
                 
                 email.send()

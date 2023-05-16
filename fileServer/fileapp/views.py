@@ -10,6 +10,7 @@ from .models import File
 from .forms import EmailForm
 import boto3
 
+
 #Ensure users are authenticated before accessing pages.
 #This explains the reason for the mixin 
 class HomeView(LoginRequiredMixin,TemplateView):
@@ -35,7 +36,6 @@ def file_search(request):
 def email_form(request,file_id):
     form = EmailForm
     file = get_object_or_404(File,pk=file_id)
-    print(file.title)
     return render(request,"fileapp/send_mail.html",{'form':form,"file":file})    
 
 def preview_file(request,file_id):
@@ -84,8 +84,8 @@ def send_mail(request,file_id):
                 email = EmailMessage(
                     subject = form.cleaned_data['subject'],
                     body = form.cleaned_data['body'],
-                    from_email= 'jerryeagbesi@gmail.com',
-                    to = [form.cleaned_data['to']])
+                    from_email= 'noreply@fileserver.com',
+                    to = [form.cleaned_data['to']],headers={'From': 'File Server <noreply@fileserver.com>'})
                 
                 #attach file content to email being sent
                 email.attach(file_obj.title,file_content,'application/octet-stream')

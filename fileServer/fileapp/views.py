@@ -88,6 +88,8 @@ def send_mail(request,file_id):
                 
                 response = requests.get(file_url)
 
+
+                #Determine the content type of the file being attached
                 content_type = response.headers['Content-Type']
                 
                 #attach file content to email being sent

@@ -32,7 +32,7 @@ def file_download(request,file_id):
 def file_search(request):
     if request.method == 'GET':
         query = request.GET.get('search')
-        files = File.objects.filter(title__icontains="" if query is None else query )
+        files = File.objects.filter(title__icontains= ""  if query is None else query) | File.objects.filter(description__icontains= ""  if query is None else query)
         return render(request,'fileapp/search.html',{'files':files})
 
 def email_form(request,file_id):

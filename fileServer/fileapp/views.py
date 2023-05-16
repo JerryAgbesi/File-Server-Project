@@ -90,10 +90,10 @@ def send_mail(request,file_id):
                     from_email= 'jerryeagbesi@gmail.com',
                     to = [form.cleaned_data['to']])
                 
-                # email.attach(file_obj.title,file_content,'application/octet-stream')
+                email.attach(file_obj.title,file_content,'application/octet-stream')
 
                 
-                # email.send()
+                email.send()
 
                 #Increase the count emails sent for the file
                 file_obj.number_of_emails += 1

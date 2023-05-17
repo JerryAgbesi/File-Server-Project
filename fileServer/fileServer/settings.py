@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'fileapp',
     'users',
+    'allauth',
+    'allauth.account'
 ]
 
 MIDDLEWARE = [
@@ -95,18 +97,18 @@ WSGI_APPLICATION = 'fileServer.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Render postgresql database configuration
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+# DATABASES = {
+#     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
   
-}
+# }
 
 # default='postgresql://postgres:postgres@localhost:5432/mysite'
 
@@ -128,9 +130,27 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# AUTHENTICATION_BACKENDS = [
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
+
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 DEFAULT_FROM_EMAIL = 'File Server <no-reply@fileserver.com>'
+
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# ACCOUNT_EMAIL_REQUIRED = True
+
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+# SITE_ID = 1
+
 
 
 # Internationalization

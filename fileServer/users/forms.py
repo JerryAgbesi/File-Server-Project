@@ -9,12 +9,12 @@ class UserSignUpForm(UserCreationForm):
     email = forms.EmailField
 
     class Meta:
-        model = get_user_model()
-        fields = ['username','email','password1','password2'] 
+        model = CustomUser
+        fields = ['email','password1','password2'] 
 
 class EmailAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(widget=forms.EmailInput(attrs={'autofocus': True}))
 
     class Meta:
         model = get_user_model()
-        fields = ['username','password']
+        fields = ['email','password']

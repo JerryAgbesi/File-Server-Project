@@ -15,7 +15,7 @@ import boto3
 #This explains the reason for the mixin 
 class HomeView(LoginRequiredMixin,TemplateView):
     template_name = "fileapp/home.html"
-    extra_context = {"files":File.objects.all()}
+    extra_context = {"files":File.objects.all().order_by('date_uploaded')}
 
 def file_download(request,file_id):
     file = get_object_or_404(File,pk=file_id)

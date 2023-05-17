@@ -82,6 +82,12 @@ TEMPLATES = [
     },
 ]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+
 WSGI_APPLICATION = 'fileServer.wsgi.application'
 
 

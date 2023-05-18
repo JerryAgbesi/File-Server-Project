@@ -21,10 +21,17 @@ class HomeView(LoginRequiredMixin,TemplateView):
 
 def file_download(request,file_id):
     file = get_object_or_404(File,pk=file_id)
+    file_url = file.file.url
+
     #increment the number of downloads 
     file.number_of_downloads += 1
     file.save()
-    response = HttpResponse(file.file,content_type='application/pdf')
+
+    #Get the content and content type of the file
+    response = requests.get(file_url)
+
+    content_type = response.headers['Content-Type']
+    response = HttpResponse(file.file,content_type=content_type)
     response['Content-Disposition'] = f'attachment; filename="{file.file.name}"'
     
     return response

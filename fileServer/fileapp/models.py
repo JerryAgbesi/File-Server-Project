@@ -1,9 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
 import datetime
-
-# Create your models here.
-from django.views.generic.list import ListView
 
 
 class File(models.Model):

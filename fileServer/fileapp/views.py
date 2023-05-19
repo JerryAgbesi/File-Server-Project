@@ -76,7 +76,7 @@ def send_mail(request,file_id):
                 # mail = form.save(commit=False)
                 
 
-                #Retrieve the file from the S3 bucket
+                #Retrieve the file content from the S3 bucket
                 s3 = boto3.resource('s3')
                 bucket_name = 'django-file-server'
 

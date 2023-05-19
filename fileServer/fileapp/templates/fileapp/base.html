@@ -30,22 +30,27 @@
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggle">
-          <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="/">Home</a>
-          </div>
+          
         
-          <div class="navbar-nav ms-auto">
+          
             {% if user.is_authenticated %}
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="/">Home</a>
+            </div>
+            <div class="navbar-nav ms-auto">
               <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
               <form class="d-flex ms-5" name="searchbar" method="GET" action="{% url 'file_search' %}">
                 <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
+            </div>
             {% else %}  
+            <div class="navbar-nav ms-auto">
               <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
               <a class="nav-item nav-link" href="{% url 'signup' %}">Sign up</a>
+            </div>
             {% endif %}  
-          </div>
+        
          
         </div>
       </div>
